@@ -1,0 +1,39 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP +12V
+D power-flag symbol
+K Power Flag Symbol
+$ENDCMP
+#
+$CMP +HV
+D power-flag symbol
+K Power Flag Symbol
+$ENDCMP
+#
+$CMP Fiducial
+D Fiducial point
+K Fiducial Point
+$ENDCMP
+#
+$CMP HV5522
+D High Voltage 32-channel serial to parallel converter with Open Drain outputs
+K High Voltage Serial to Parallel Converter Open Drain Outputs
+F https://www.futurel.bg/datasheets/4/HV5522.pdf
+$ENDCMP
+#
+$CMP IN-14
+D Russian 10 digit Nixie tube with two decimal points
+K Nixie Tube 10 digits
+$ENDCMP
+#
+$CMP MC7940N
+D Real time Clock with battery backup
+K RTC BATTERY BACKUP
+$ENDCMP
+#
+$CMP TestPoint
+D Test Pont
+K Test Point
+$ENDCMP
+#
+#End Doc Library
