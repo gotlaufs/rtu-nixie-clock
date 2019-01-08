@@ -18,7 +18,7 @@
 # SMING_HOME = c:/tools/sming/Sming 
 
 ## MacOS / Linux
-# SMING_HOME = /opt/sming/Sming
+# SMING_HOME = /opt/Sming/Sming
 
 ## COM port parameter is reqruied to flash firmware correctly.
 ## Windows: 
