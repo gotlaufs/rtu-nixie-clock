@@ -10,7 +10,7 @@
 #include <SmingCore/SmingCore.h>
 
 Timer display_timer;
-Timer sys_tick;
+// DateTime dt;
 
 void init()
 {
@@ -24,11 +24,11 @@ void init()
 
     nixie_off();
 
-    struct lean_tm tm_struct;
-    tm_struct.tm_min = BUILD_MIN;
-    tm_struct.tm_hour = BUILD_HOUR;
-    lean_settime_tm(&tm_struct);
+    time_t now = DateTime::toUnixTime(0, BUILD_MIN, BUILD_HOUR, 8, 0, 2018);
+
+    RTC.setRtcSeconds(now);
 
     display_timer.initializeMs(1000, show_time_simple).start();
-    sys_tick.initializeMs(100, sys_tick_handler).start();
+
+    Serial.begin(115200);
 }
