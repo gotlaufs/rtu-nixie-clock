@@ -3,7 +3,6 @@
 #include "nixie_driver.h"
 #include "pin_map.h"
 #include "display.h"
-#include "lean_time.h"
 #include "build_time.h"
 
 #include <user_config.h>
