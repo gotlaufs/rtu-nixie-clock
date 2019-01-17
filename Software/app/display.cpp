@@ -1,5 +1,5 @@
 #include "display.h"
-#include "lean_time.h"
+// #include "lean_time.h"
 #include "nixie_driver.h"
 
 #include <SmingCore/SmingCore.h>

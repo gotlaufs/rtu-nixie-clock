@@ -16,8 +16,8 @@
 #define SW_2        13
 #define SW_3        0
 
-#define SDA         14
-#define SCL         2
+#define SDA         2
+#define SCL         14
 
 #define WS_DATA     12 // Also doubles as SW_1
 
