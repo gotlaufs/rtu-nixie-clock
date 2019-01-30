@@ -14,7 +14,7 @@
 #include <SmingCore/SmingCore.h>
 
 Timer display_timer;
-NixieClock clock;
+NixieClock nixie_clock;
 
 void init()
 {
@@ -40,5 +40,5 @@ void init()
     Wire.pins (SCL, SDA);
     Wire.begin();
 
-    clock.init();
+    nixie_clock.init();
 }

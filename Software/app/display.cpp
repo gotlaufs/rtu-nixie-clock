@@ -5,7 +5,7 @@
 #include <SmingCore/SmingCore.h>
 
 void show_time_simple(void){
-    
+
     time_t now = RTC.getRtcSeconds();
     nixie_data_type nixie_data;
 
@@ -29,3 +29,4 @@ void show_time_simple(void){
 
     nixie_update(&nixie_data);
 }
+
