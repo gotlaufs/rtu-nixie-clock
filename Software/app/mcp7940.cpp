@@ -47,27 +47,22 @@ uint8_t rtc_configure()
 
 uint8_t rtc_get_datetime(tm *datetime)
 {
-    uint8_t retval;
     uint8_t rtc_regs[6];
 
-    retval = reg_read(0x00, 6, rtc_regs);
+    reg_read(0x00, 6, rtc_regs);
 
-    if (!retval)
-    {
-        datetime->tm_sec = (rtc_regs[0] & 0x0F) + ((rtc_regs[0] & 0x70) >> 4) * 10;
-        datetime->tm_min = (rtc_regs[1] & 0x0F) + ((rtc_regs[1] & 0x70) >> 4) * 10;
-        datetime->tm_hour = (rtc_regs[2] & 0x0F) + ((rtc_regs[2] & 0x30) >> 4) * 10;
+    datetime->tm_sec = (rtc_regs[0] & 0x0F) + ((rtc_regs[0] & 0x70) >> 4) * 10;
+    datetime->tm_min = (rtc_regs[1] & 0x0F) + ((rtc_regs[1] & 0x70) >> 4) * 10;
+    datetime->tm_hour = (rtc_regs[2] & 0x0F) + ((rtc_regs[2] & 0x30) >> 4) * 10;
 
-        datetime->tm_mday = (rtc_regs[4] & 0x0F) + ((rtc_regs[4] & 0x30) >> 4) * 10;
-        datetime->tm_mon = (rtc_regs[5] & 0x0F) + ((rtc_regs[5] & 0x10) >> 4) * 10;
-    }
+    datetime->tm_mday = (rtc_regs[4] & 0x0F) + ((rtc_regs[4] & 0x30) >> 4) * 10;
+    datetime->tm_mon = (rtc_regs[5] & 0x0F) + ((rtc_regs[5] & 0x10) >> 4) * 10;
 
-    return retval;
+    return 0;
 }
 
 uint8_t rtc_set_datetime(tm *datetime)
 {
-    uint8_t retval = 0;
     uint8_t data;
     // 0x08 enables battery backup in WKDAY register
     uint8_t rtc_regs[6] = {0, 0, 0, 0x08, 0, 0};
@@ -86,30 +81,22 @@ uint8_t rtc_set_datetime(tm *datetime)
 
     // Stop crystal oscillator
     data = 0;
-    retval = reg_write(0x00, 1, &data);
-    data = 0;
-    if (!retval)
+    reg_write(0x00, 1, &data);
+    data = 0x20;
+    // Check OSCRUN bit in RTCWKDAY reg
+    while ((data & 0x20))
     {
-        // Check OSCRUN bit in RTCWKDAY reg
-        while (!(data & 0x20))
-        {
-            retval = reg_read(0x03, 1, &data);
-            Serial.print("Data = ");
-            Serial.println(data);
-        }
+        reg_read(0x03, 1, &data);
     }
 
-    // // Write out updated datetime values
-    // if (!retval)
-    // {
-    //     retval = reg_write(0x00, 6, rtc_regs);
-    // }
+    // Write out updated datetime values
+    reg_write(0x00, 6, rtc_regs);
 
-    // // Restart oscillator
-    // data = 0x80;
-    // retval = reg_write(0x00, 1, &data);
+    // Restart oscillator
+    data = 0x80;
+    reg_write(0x00, 1, &data);
 
-    return retval;
+    return 0;
 }
 
 // Read a number of bytes from MCP7940 device

@@ -28,25 +28,4 @@ void show_time_simple(void){
     nixie_data.COLON_2 = 1;
 
     nixie_update(&nixie_data);
-
-    DateTime dt(now);
-    Serial.println(dt.toFullDateTimeString());
-    Serial.print("N6 = ");
-    Serial.print(nixie_data.N6);
-    Serial.print(" N5 = ");
-    Serial.print(nixie_data.N5);
-    Serial.print(" N4 = ");
-    Serial.print(nixie_data.N4);
-    Serial.print(" N3 = ");
-    Serial.print(nixie_data.N3);
-    Serial.print(" N2 = ");
-    Serial.print(nixie_data.N2);
-    Serial.print(" N1 = ");
-    Serial.println(nixie_data.N1);
-    Serial.print("C1 = ");
-    Serial.print(nixie_data.COLON_1);
-    Serial.print(" C2 = ");
-    Serial.println(nixie_data.COLON_2);
-
-
 }
