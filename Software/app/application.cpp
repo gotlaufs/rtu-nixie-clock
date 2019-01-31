@@ -16,6 +16,10 @@
 Timer display_timer;
 NixieClock nixie_clock;
 
+void SW_1_ISR();
+void SW_2_ISR();
+void SW_3_ISR();
+
 void init()
 {
     pinMode(LED, OUTPUT);
@@ -34,11 +38,35 @@ void init()
 
     display_timer.initializeMs(1000, show_time_simple).start();
 
-    Serial.begin(115200);
-
+    Serial.begin(921600);
+    Serial.printf("Hello, World!\n");
     // I2C bus
     Wire.pins (SCL, SDA);
     Wire.begin();
 
     nixie_clock.init();
+
+    pinMode(SW_1, INPUT);
+    pinMode(SW_2, INPUT);
+    pinMode(SW_3, INPUT);
+
+    attachInterrupt(SW_1, InterruptDelegate(SW_1_ISR), CHANGE);
+    attachInterrupt(SW_2, InterruptDelegate(SW_2_ISR), CHANGE);
+    attachInterrupt(SW_3, InterruptDelegate(SW_3_ISR), CHANGE);
+
+}
+
+void SW_1_ISR()
+{
+    Serial.printf("SW 1 state is: %d\n", digitalRead(SW_1));
+}
+
+void SW_2_ISR()
+{
+    Serial.printf("SW 2 state is: %d\n", digitalRead(SW_2));
+}
+
+void SW_3_ISR()
+{
+    Serial.printf("SW 3 state is: %d\n", digitalRead(SW_3));
 }

@@ -12,9 +12,9 @@
 #define HV_CLK      4
 #define HV_BLANK    5
 
-#define SW_1        12  // This also doubles as data pin for WS2812
-#define SW_2        13
-#define SW_3        0
+#define SW_1        0
+#define SW_2        12  // This also doubles as data pin for WS2812
+#define SW_3        13
 
 #define SDA         14
 #define SCL         2
