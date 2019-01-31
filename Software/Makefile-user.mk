@@ -15,20 +15,20 @@ ESP_HOME = /opt/esp-open-sdk
 
 ## SMING_HOME sets the path where Sming framework is located.
 ## Windows:
-# SMING_HOME = c:/tools/sming/Sming 
+# SMING_HOME = c:/tools/sming/Sming
 
 ## MacOS / Linux
 SMING_HOME = /opt/Sming/Sming
 
 ## COM port parameter is reqruied to flash firmware correctly.
-## Windows: 
+## Windows:
 # COM_PORT = COM3
 
 ## MacOS / Linux:
 # COM_PORT = /dev/tty.usbserial
 
 ## Com port speed
-# COM_SPEED	= 115200
+COM_SPEED	= 921600
 
 ## Configure flash parameters (for ESP12-E and other new boards):
 # SPI_MODE = dio

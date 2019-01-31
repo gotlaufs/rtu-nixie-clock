@@ -13,6 +13,7 @@ void NixieClock::init()
     // Initialize RTC IC
     uint8_t read_byte;
     tm time;
+    memset(&time, 0, sizeof(tm));
 
     mem_read(RTC_MAGIC_ADDR, 1, &read_byte);
 
