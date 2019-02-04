@@ -9,16 +9,25 @@
 
 #include "nixie_clock.h"
 
+#include "button.h"
+
 #include <time.h>
 #include <user_config.h>
 #include <SmingCore/SmingCore.h>
 
 Timer display_timer;
+Timer button_handler;
+
 NixieClock nixie_clock;
 
 void SW_1_ISR();
 void SW_2_ISR();
 void SW_3_ISR();
+
+Button SW1(SW_1);
+void buttonHandlerCallback();
+
+void buttonCallback(Button::Press pr);
 
 void init()
 {
@@ -38,6 +47,8 @@ void init()
 
     display_timer.initializeMs(1000, show_time_simple).start();
 
+    button_handler.initializeMs(10, buttonHandlerCallback).start();
+
     Serial.begin(921600);
     Serial.printf("Hello, World!\n");
     // I2C bus
@@ -46,9 +57,11 @@ void init()
 
     nixie_clock.init();
 
-    pinMode(SW_1, INPUT);
+//    pinMode(SW_1, INPUT);
+    SW1.attachHandler(&buttonCallback);
+
     pinMode(SW_2, INPUT);
-    pinMode(SW_3, INPUT);
+    pinMode(SW_3, INPUT_PULLUP);
 
     attachInterrupt(SW_1, InterruptDelegate(SW_1_ISR), CHANGE);
     attachInterrupt(SW_2, InterruptDelegate(SW_2_ISR), CHANGE);
@@ -59,6 +72,7 @@ void init()
 void SW_1_ISR()
 {
     Serial.printf("SW 1 state is: %d\n", digitalRead(SW_1));
+    SW1.isr();
 }
 
 void SW_2_ISR()
@@ -69,4 +83,14 @@ void SW_2_ISR()
 void SW_3_ISR()
 {
     Serial.printf("SW 3 state is: %d\n", digitalRead(SW_3));
+}
+
+void buttonHandlerCallback()
+{
+    SW1.processEvents();
+}
+
+void buttonCallback(Button::Press pr)
+{
+    Serial.printf("Got from Callback!\n");
 }
