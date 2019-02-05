@@ -20,14 +20,10 @@ Timer button_handler;
 
 NixieClock nixie_clock;
 
-void SW_1_ISR();
 void SW_2_ISR();
 void SW_3_ISR();
 
 Button SW1(SW_1);
-void buttonHandlerCallback();
-
-void buttonCallback(Button::Press pr);
 
 void init()
 {
@@ -47,7 +43,8 @@ void init()
 
     display_timer.initializeMs(1000, show_time_simple).start();
 
-    button_handler.initializeMs(10, buttonHandlerCallback).start();
+    button_handler.initializeMs(10,
+        (InterruptCallback)([] { SW1.processEvents(); }) ).start();
 
     Serial.begin(921600);
     Serial.printf("Hello, World!\n");
@@ -58,21 +55,24 @@ void init()
     nixie_clock.init();
 
 //    pinMode(SW_1, INPUT);
-    SW1.attachHandler(&buttonCallback);
+    SW1.attachHandler(
+        [] (Button::Press) {Serial.printf("Got from Callback!\n");}
+        );
 
     pinMode(SW_2, INPUT);
     pinMode(SW_3, INPUT_PULLUP);
 
-    attachInterrupt(SW_1, InterruptDelegate(SW_1_ISR), CHANGE);
+    attachInterrupt(
+        SW_1,
+        InterruptDelegate(
+            [] { Serial.printf("SW 1 state is: %d\n", digitalRead(SW_1));
+             SW1.isr(); }),
+        CHANGE
+        );
+
     attachInterrupt(SW_2, InterruptDelegate(SW_2_ISR), CHANGE);
     attachInterrupt(SW_3, InterruptDelegate(SW_3_ISR), CHANGE);
 
-}
-
-void SW_1_ISR()
-{
-    Serial.printf("SW 1 state is: %d\n", digitalRead(SW_1));
-    SW1.isr();
 }
 
 void SW_2_ISR()
@@ -83,14 +83,4 @@ void SW_2_ISR()
 void SW_3_ISR()
 {
     Serial.printf("SW 3 state is: %d\n", digitalRead(SW_3));
-}
-
-void buttonHandlerCallback()
-{
-    SW1.processEvents();
-}
-
-void buttonCallback(Button::Press pr)
-{
-    Serial.printf("Got from Callback!\n");
 }

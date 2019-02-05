@@ -17,7 +17,7 @@ public:
     ~Button();
 
     // Function prototype for the callback
-    typedef void (Callback)(Press p);
+    typedef void (* Callback)(Press p);
 
     // Call this from ISR to register button press
     void isr();
@@ -26,7 +26,7 @@ public:
     void processEvents();
 
     // Register a handle for this button's output.
-    void attachHandler(Callback * callback);
+    void attachHandler(Callback callback);
 
 private:
     // Configuration constants
@@ -39,5 +39,5 @@ private:
     unsigned long last_event = 0;
     unsigned int pin = 0;
 
-    Callback * cb = nullptr;
+    Callback cb = nullptr;
 };

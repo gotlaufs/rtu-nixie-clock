@@ -44,7 +44,7 @@ void Button::processEvents()
 }
 
 // Register a handle for this button's output.
-void Button::attachHandler(Callback * callback)
+void Button::attachHandler(Callback callback)
 {
     cb = callback;
 }
