@@ -18,10 +18,14 @@
 Timer display_timer;
 Timer button_handler;
 
+Timer serial_timer;
+
 NixieClock nixie_clock;
 
 void SW_2_ISR();
 void SW_3_ISR();
+
+void serialButtonFaker();
 
 Button SW1(SW_1);
 
@@ -46,6 +50,8 @@ void init()
     button_handler.initializeMs(10,
         (InterruptCallback)([] { SW1.processEvents(); }) ).start();
 
+    serial_timer.initializeMs(100, serialButtonFaker).start();
+
     Serial.begin(921600);
     Serial.printf("Hello, World!\n");
     // I2C bus
@@ -67,7 +73,7 @@ void init()
         InterruptDelegate(
             [] { Serial.printf("SW 1 state is: %d\n", digitalRead(SW_1));
              SW1.isr(); }),
-        CHANGE
+        FALLING
         );
 
     attachInterrupt(SW_2, InterruptDelegate(SW_2_ISR), CHANGE);
@@ -83,4 +89,35 @@ void SW_2_ISR()
 void SW_3_ISR()
 {
     Serial.printf("SW 3 state is: %d\n", digitalRead(SW_3));
+}
+
+void serialButtonFaker()
+{
+    // Read certain characters from serial stream and report them as button
+    // presses
+
+    char read_char = 0;
+
+    if (Serial.available() > 0)
+    {
+        read_char = Serial.read();
+
+        switch (read_char)
+        {
+            case '1':
+                nixie_clock.button1(Button::SHORT_PRESS);
+            break;
+
+            case '2':
+                SW_2_ISR();
+            break;
+
+            case '3':
+                SW_3_ISR();
+            break;
+
+            default:
+            break;
+        }
+    }
 }
