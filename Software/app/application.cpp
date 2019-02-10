@@ -56,7 +56,7 @@ void init()
 
 //    pinMode(SW_1, INPUT);
     SW1.attachHandler(
-        [] (Button::Press) {Serial.printf("Got from Callback!\n");}
+        [] (Button::Press p) {nixie_clock.button1(p);}
         );
 
     pinMode(SW_2, INPUT);

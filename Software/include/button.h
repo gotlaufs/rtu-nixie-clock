@@ -1,5 +1,8 @@
 // Button interface
 
+#ifndef BUTTON_H_
+#define BUTTON_H_
+
 class Button
 {
 public:
@@ -30,7 +33,7 @@ public:
 
 private:
     // Configuration constants
-    const int DEBOUNCE_MS = 50;
+    const int DEBOUNCE_MS = 100;
     const int DOUBLE_PRESS_MS = 200;
 
     const int LONG_PRESS_MS = 500;
@@ -41,3 +44,5 @@ private:
 
     Callback cb = nullptr;
 };
+
+#endif // BUTTON_H_

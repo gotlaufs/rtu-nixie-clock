@@ -1,12 +1,18 @@
 #include "nixie_clock.h"
 #include "mcp7940.h"
 
+#include "show_time_state.h"
+#include "set_time_state.h"
+
 #include <SmingCore/SmingCore.h>
 
 #include <ctime>
 #include <cstdint>
 
-NixieClock::NixieClock() {}
+NixieClock::NixieClock()
+{
+    current_state = new ShowTimeState;
+}
 
 void NixieClock::init()
 {
@@ -40,4 +46,42 @@ void NixieClock::init()
         RTC.setRtcSeconds(now);
     }
 
+}
+
+void NixieClock::button1(Button::Press press_type)
+{
+    current_state->button1(this, press_type);
+}
+
+void NixieClock::button2(Button::Press press_type)
+{
+    current_state->button1(this, press_type);
+}
+
+void NixieClock::button3(Button::Press press_type)
+{
+    current_state->button1(this, press_type);
+}
+
+void NixieClock::setState(State state_enum)
+{
+    Serial.printf("Changing state from <%s> to ", current_state->getName());
+    delete current_state;
+
+    switch(state_enum)
+    {
+    case SHOW_TIME:
+        current_state = new ShowTimeState;
+    break;
+
+    case SET_TIME:
+        current_state = new SetTimeState;
+    break;
+
+    default:
+        Serial.printf("Error: unknown state reached: ENUM<%d>\n", state_enum);
+        current_state = new ShowTimeState;
+    }
+
+    Serial.printf("<%s>\n", current_state->getName());
 }
