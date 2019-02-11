@@ -27,6 +27,8 @@ public:
     void button2(Button::Press press_type);
     void button3(Button::Press press_type);
 
+    void run();
+
     void setState(State state_enum);
 
 private:

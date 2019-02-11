@@ -45,7 +45,6 @@ void init()
 
     RTC.setRtcSeconds(now);
 
-    display_timer.initializeMs(1000, show_time_simple).start();
 
     button_handler.initializeMs(10,
         (InterruptCallback)([] { SW1.processEvents(); }) ).start();
@@ -59,6 +58,8 @@ void init()
     Wire.begin();
 
     nixie_clock.init();
+    display_timer.initializeMs(100,
+        (InterruptCallback)( [] { nixie_clock.run(); }) ).start();
 
 //    pinMode(SW_1, INPUT);
     SW1.attachHandler(

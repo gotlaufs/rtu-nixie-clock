@@ -13,7 +13,13 @@ SetTimeState::SetTimeState()
 {
 
 }
+
 SetTimeState::~SetTimeState()
+{
+
+}
+
+void SetTimeState::update()
 {
 
 }

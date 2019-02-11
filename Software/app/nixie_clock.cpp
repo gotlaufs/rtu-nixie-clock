@@ -85,3 +85,8 @@ void NixieClock::setState(State state_enum)
 
     Serial.printf("<%s>\n", current_state->getName());
 }
+
+void NixieClock::run()
+{
+    current_state->run();
+}

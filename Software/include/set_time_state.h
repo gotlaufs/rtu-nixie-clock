@@ -19,6 +19,8 @@ public:
     virtual void button2(NixieClock * app, Button::Press press_type);
     virtual void button3(NixieClock * app, Button::Press press_type);
 
+    virtual void update();
+
     virtual const char * getName();
 };
 
