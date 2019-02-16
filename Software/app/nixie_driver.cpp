@@ -28,8 +28,8 @@ static void form_nixie_bytes(nixie_data_type *nixie_data, uint32_t *hv_bits){
         case 0: hv_2 |= BIT27; break;//
         case 1: hv_2 |= BIT8;  break;//
         case 2: hv_2 |= BIT7;  break;//
-        //case 3: hv_2 |= BIT6;  break;// 2018-04-13 Disable digits 3&4 on Nixie 5 because of electrical short
-        //case 4: hv_2 |= BIT5;  break;//
+        case 3: hv_2 |= BIT6;  break;// 2018-04-13 Disable digits 3&4 on Nixie 5 because of electrical short
+        case 4: hv_2 |= BIT5;  break;//
         case 5: hv_2 |= BIT4;  break;//
         case 6: hv_2 |= BIT3;  break;//
         case 7: hv_2 |= BIT2;  break;//
