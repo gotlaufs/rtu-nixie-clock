@@ -55,12 +55,12 @@ void NixieClock::button1(Button::Press press_type)
 
 void NixieClock::button2(Button::Press press_type)
 {
-    current_state->button1(this, press_type);
+    current_state->button2(this, press_type);
 }
 
 void NixieClock::button3(Button::Press press_type)
 {
-    current_state->button1(this, press_type);
+    current_state->button3(this, press_type);
 }
 
 void NixieClock::setState(State state_enum)

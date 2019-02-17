@@ -20,14 +20,14 @@ Timer button_handler;
 
 Timer serial_timer;
 
-NixieClock nixie_clock;
+Button SW1(SW_1);
+Button SW2(SW_2);
+Button SW3(SW_3);
 
-void SW_2_ISR();
-void SW_3_ISR();
+NixieClock nixie_clock;
 
 void serialButtonFaker();
 
-Button SW1(SW_1);
 
 void init()
 {
@@ -46,8 +46,6 @@ void init()
     RTC.setRtcSeconds(now);
 
 
-    button_handler.initializeMs(10,
-        (InterruptCallback)([] { SW1.processEvents(); }) ).start();
 
     serial_timer.initializeMs(100, serialButtonFaker).start();
 
@@ -61,35 +59,44 @@ void init()
     display_timer.initializeMs(100,
         (InterruptCallback)( [] { nixie_clock.run(); }) ).start();
 
-//    pinMode(SW_1, INPUT);
+    // Set up buttons
+    attachInterrupt(
+        SW_1,
+        InterruptDelegate(
+            [] { SW1.isr(); }),
+        CHANGE
+        );
+
     SW1.attachHandler(
         [] (Button::Press p) {nixie_clock.button1(p);}
         );
 
-    pinMode(SW_2, INPUT);
-    pinMode(SW_3, INPUT_PULLUP);
-
     attachInterrupt(
-        SW_1,
+        SW_2,
         InterruptDelegate(
-            [] { Serial.printf("SW 1 state is: %d\n", digitalRead(SW_1));
-             SW1.isr(); }),
-        FALLING
+            [] { SW2.isr(); }),
+        CHANGE
         );
 
-    attachInterrupt(SW_2, InterruptDelegate(SW_2_ISR), CHANGE);
-    attachInterrupt(SW_3, InterruptDelegate(SW_3_ISR), CHANGE);
+    SW2.attachHandler(
+        [] (Button::Press p) {nixie_clock.button2(p);}
+        );
 
-}
+    attachInterrupt(
+        SW_3,
+        InterruptDelegate(
+            [] { SW3.isr(); }),
+        CHANGE
+        );
 
-void SW_2_ISR()
-{
-    Serial.printf("SW 2 state is: %d\n", digitalRead(SW_2));
-}
+    SW3.attachHandler(
+        [] (Button::Press p) {nixie_clock.button3(p);}
+        );
 
-void SW_3_ISR()
-{
-    Serial.printf("SW 3 state is: %d\n", digitalRead(SW_3));
+    button_handler.initializeMs(10,
+        (InterruptCallback)([] { SW1.processEvents();
+                                 SW2.processEvents();
+                                 SW3.processEvents(); }) ).start();
 }
 
 void serialButtonFaker()
@@ -110,11 +117,11 @@ void serialButtonFaker()
             break;
 
             case '2':
-                SW_2_ISR();
+                nixie_clock.button2(Button::SHORT_PRESS);
             break;
 
             case '3':
-                SW_3_ISR();
+                nixie_clock.button3(Button::SHORT_PRESS);
             break;
 
             default:
