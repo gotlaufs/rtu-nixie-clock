@@ -37,8 +37,22 @@ void ShowTimeState::update()
     nixie_data.DECIMAL_1 = 0;
     nixie_data.DECIMAL_2 = 0;
 
-    nixie_data.COLON_1 = 1;
-    nixie_data.COLON_2 = 1;
+    // Make colons blink @ 1Hz
+    // Nanoseconds in RTC are counted since RTC value set
+    uint64_t ns = RTC.getRtcNanoseconds();
+    ns = ns / 100000000; // 0.1s precision
+    ns = ns % 10;
+    if (ns >= 5)
+    {
+        nixie_data.COLON_1 = 1;
+        nixie_data.COLON_2 = 1;
+    }
+    else
+    {
+        nixie_data.COLON_1 = 0;
+        nixie_data.COLON_2 = 0;
+    }
+
 }
 
 void ShowTimeState::button1(NixieClock * app, Button::Press press_type)
