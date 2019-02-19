@@ -97,6 +97,8 @@ void init()
         (InterruptCallback)([] { SW1.processEvents();
                                  SW2.processEvents();
                                  SW3.processEvents(); }) ).start();
+
+    Serial.printf("Application started\n");
 }
 
 void serialButtonFaker()

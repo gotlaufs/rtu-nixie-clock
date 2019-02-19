@@ -42,6 +42,11 @@ public:
 
 protected:
     nixie_data_type nixie_data;
+    // Holds current values for Seconds, minutes and hours
+    int8_t sec, min, hour;
+    // Take 'sec', 'min' and 'hour' variables and write their values to Nixie
+    // tubes
+    void writeTimeToNixie();
 };
 
 #endif // NIXIE_STATE_H_

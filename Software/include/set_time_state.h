@@ -22,6 +22,16 @@ public:
     virtual void update();
 
     virtual const char * getName();
+
+private:
+    enum CurrentDigit
+    {
+        HOUR,
+        MINUTE,
+        SECOND
+    };
+
+    CurrentDigit current_digit = HOUR;
 };
 
 #endif // SET_TIME_STATE_H_
