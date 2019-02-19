@@ -2,6 +2,7 @@
 
 #include <SmingCore/SmingCore.h>
 #include <stdint.h>
+#include <string.h>
 
 static uint8_t reg_read(uint8_t address, uint8_t count, uint8_t *data);
 static uint8_t reg_write(uint8_t address, uint8_t count, uint8_t *data);
@@ -47,6 +48,9 @@ uint8_t rtc_configure()
 
 uint8_t rtc_get_datetime(tm *datetime)
 {
+    // TODO: This does not handle years.
+    memset(datetime, 0, sizeof(tm));
+
     uint8_t rtc_regs[6];
 
     reg_read(0x00, 6, rtc_regs);
@@ -63,9 +67,14 @@ uint8_t rtc_get_datetime(tm *datetime)
 
 uint8_t rtc_set_datetime(tm *datetime)
 {
+    // TODO: This does not handle years.
+
     uint8_t data;
     // 0x08 enables battery backup in WKDAY register
     uint8_t rtc_regs[6] = {0, 0, 0, 0x08, 0, 0};
+
+    rtc_regs[0] |= ((datetime->tm_sec % 10 ) << 0 ) & 0x0F;
+    rtc_regs[0] |= ((datetime->tm_sec / 10 ) << 4 ) & 0x70;
 
     rtc_regs[1] |= ((datetime->tm_min % 10 ) << 0 ) & 0x0F;
     rtc_regs[1] |= ((datetime->tm_min / 10 ) << 4 ) & 0x70;
@@ -93,8 +102,15 @@ uint8_t rtc_set_datetime(tm *datetime)
     reg_write(0x00, 6, rtc_regs);
 
     // Restart oscillator
-    data = 0x80;
-    reg_write(0x00, 1, &data);
+    rtc_regs[0] |= 0x80;
+    reg_write(0x00, 1, &rtc_regs[0]);
+
+    // Wait until crystal osc starts up again
+    do
+    {
+        reg_read(0x03, 1, &data);
+    }
+    while (!(data & 0x20));
 
     return 0;
 }
@@ -121,7 +137,7 @@ static uint8_t reg_write(uint8_t address, uint8_t count, uint8_t *data)
 {
     Wire.beginTransmission(MCP_ADDRESS);
     Wire.write(address);
-    
+
     while (count)
     {
         Wire.write(*(data++));
@@ -129,6 +145,6 @@ static uint8_t reg_write(uint8_t address, uint8_t count, uint8_t *data)
     }
 
     Wire.endTransmission();
-    
+
     return 0;
 }

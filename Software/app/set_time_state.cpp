@@ -29,6 +29,8 @@ SetTimeState::~SetTimeState()
     // Leaving this state
     // Set RTC IC time
     tm time;
+    memset(&time, 0, sizeof(tm));
+
     rtc_get_datetime(&time);
     time.tm_hour = hour;
     time.tm_min  = min;
