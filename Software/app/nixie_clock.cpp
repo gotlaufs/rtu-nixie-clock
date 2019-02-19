@@ -11,7 +11,6 @@
 
 NixieClock::NixieClock()
 {
-    current_state = new ShowTimeState;
 }
 
 void NixieClock::init()
@@ -46,6 +45,7 @@ void NixieClock::init()
         RTC.setRtcSeconds(now);
     }
 
+    current_state = new ShowTimeState;
 }
 
 void NixieClock::button1(Button::Press press_type)

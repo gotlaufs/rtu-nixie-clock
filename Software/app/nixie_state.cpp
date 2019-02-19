@@ -33,7 +33,7 @@ void NixieState::writeTimeToNixie()
     }
     else
     {
-        nixie_data.N2 = min % 10;
-        nixie_data.N1 = min / 10;
+        nixie_data.N2 = hour % 10;
+        nixie_data.N1 = hour / 10;
     }
 }

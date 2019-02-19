@@ -8,9 +8,10 @@
 #include <user_config.h>
 #include <SmingCore/SmingCore.h>
 
+
 ShowTimeState::ShowTimeState()
 {
-    Serial.printf("Entering ShowTime state\n");
+
 }
 
 ShowTimeState::~ShowTimeState()
@@ -20,11 +21,10 @@ ShowTimeState::~ShowTimeState()
 
 void ShowTimeState::update()
 {
-    Serial.printf("Update in ShowTime\n");
     time_t now = RTC.getRtcSeconds();
     DateTime::fromUnixTime(now, &sec, &min, &hour, NULL, NULL, NULL, NULL);
 
-    // writeTimeToNixie();
+    writeTimeToNixie();
 
     nixie_data.DECIMAL_1 = 0;
     nixie_data.DECIMAL_2 = 0;

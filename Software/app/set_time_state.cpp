@@ -4,10 +4,11 @@
 
 #include "set_time_state.h"
 #include "nixie_clock.h"
+#include "mcp7940.h"
 
 #include <user_config.h>
 #include <SmingCore/SmingCore.h>
-
+#include <ctime>
 
 SetTimeState::SetTimeState()
 {
@@ -25,12 +26,27 @@ SetTimeState::SetTimeState()
 
 SetTimeState::~SetTimeState()
 {
-    writeTimeToNixie();
+    // Leaving this state
+    // Set RTC IC time
+    tm time;
+    rtc_get_datetime(&time);
+    time.tm_hour = hour;
+    time.tm_min  = min;
+    time.tm_sec  = sec;
+    rtc_set_datetime(&time);
+    Serial.println("Updated external RTC time");
+
+    // Update internal RTC time
+    rtc_get_datetime(&time);
+    time_t now = DateTime::toUnixTime(time.tm_sec, time.tm_min, time.tm_hour,
+        time.tm_mday, time.tm_mon, time.tm_year);
+    RTC.setRtcSeconds(now);
+    Serial.println("Updated internal RTC from external RTC IC");
 }
 
 void SetTimeState::update()
 {
-
+    writeTimeToNixie();
 }
 
 void SetTimeState::button1(NixieClock * app, Button::Press press_type)
@@ -65,7 +81,7 @@ void SetTimeState::button2(NixieClock * app, Button::Press press_type)
 
         case MINUTE:
             min--;
-            if (min > 0)
+            if (min < 0)
             {
                 min = 59;
             }
@@ -73,7 +89,7 @@ void SetTimeState::button2(NixieClock * app, Button::Press press_type)
 
         case SECOND:
             sec--;
-            if (sec > 0)
+            if (sec < 0)
             {
                 sec = 59;
             }
