@@ -46,22 +46,22 @@ void NixieClock::init()
         RTC.setRtcSeconds(now);
     }
 
-    current_state = new ShowTimeState;
+    current_state = new ShowTimeState(*this);
 }
 
 void NixieClock::button1(Button::Press press_type)
 {
-    current_state->button1(this, press_type);
+    current_state->button1(press_type);
 }
 
 void NixieClock::button2(Button::Press press_type)
 {
-    current_state->button2(this, press_type);
+    current_state->button2(press_type);
 }
 
 void NixieClock::button3(Button::Press press_type)
 {
-    current_state->button3(this, press_type);
+    current_state->button3(press_type);
 }
 
 void NixieClock::setState(State state_enum)
@@ -72,20 +72,20 @@ void NixieClock::setState(State state_enum)
     switch(state_enum)
     {
     case SHOW_TIME:
-        current_state = new ShowTimeState;
+        current_state = new ShowTimeState(*this);
     break;
 
     case SET_TIME:
-        current_state = new SetTimeState;
+        current_state = new SetTimeState(*this);
     break;
 
     case TUBE_SAVER:
-        current_state = new TubeSaverState;
+        current_state = new TubeSaverState(*this);
     break;
 
     default:
         Serial.printf("Error: unknown state reached: ENUM<%d>\n", state_enum);
-        current_state = new ShowTimeState;
+        current_state = new ShowTimeState(*this);
     }
 
     Serial.printf("<%s>\n", current_state->getName());

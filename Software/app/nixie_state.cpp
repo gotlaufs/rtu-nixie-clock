@@ -1,6 +1,11 @@
 // Nixie state class implementation
 #include "nixie_state.h"
 
+NixieState::NixieState(NixieClock & app_) : app(app_)
+{
+    memset(&nixie_data, 0, sizeof(nixie_data_type));
+}
+
 void NixieState::writeTimeToNixie()
 {
     if (sec > 99)

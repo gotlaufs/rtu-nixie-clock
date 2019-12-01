@@ -15,12 +15,12 @@
 class TubeSaverState : public NixieState
 {
 public:
-    TubeSaverState();
+    TubeSaverState(NixieClock & app);
     ~TubeSaverState();
 
-    virtual void button1(NixieClock * app, Button::Press press_type);
-    virtual void button2(NixieClock * app, Button::Press press_type);
-    virtual void button3(NixieClock * app, Button::Press press_type);
+    virtual void button1(Button::Press press_type);
+    virtual void button2(Button::Press press_type);
+    virtual void button3(Button::Press press_type);
 
     virtual void update();
 

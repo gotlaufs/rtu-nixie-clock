@@ -10,7 +10,7 @@
 #include <SmingCore/SmingCore.h>
 #include <ctime>
 
-SetTimeState::SetTimeState()
+SetTimeState::SetTimeState(NixieClock & app) : NixieState(app)
 {
     time_t now = RTC.getRtcSeconds();
     DateTime::fromUnixTime(now, &sec, &min, &hour, NULL, NULL, NULL, NULL);
@@ -51,7 +51,7 @@ void SetTimeState::update()
     writeTimeToNixie();
 }
 
-void SetTimeState::button1(NixieClock * app, Button::Press press_type)
+void SetTimeState::button1(Button::Press press_type)
 {
     switch(current_digit)
     {
@@ -64,12 +64,12 @@ void SetTimeState::button1(NixieClock * app, Button::Press press_type)
         break;
 
         case SECOND:
-            app->setState(NixieClock::SHOW_TIME);
+            app.setState(NixieClock::SHOW_TIME);
         break;
     }
 }
 
-void SetTimeState::button2(NixieClock * app, Button::Press press_type)
+void SetTimeState::button2(Button::Press press_type)
 {
     switch(current_digit)
     {
@@ -99,7 +99,7 @@ void SetTimeState::button2(NixieClock * app, Button::Press press_type)
     }
 }
 
-void SetTimeState::button3(NixieClock * app, Button::Press press_type)
+void SetTimeState::button3(Button::Press press_type)
 {
     switch(current_digit)
     {

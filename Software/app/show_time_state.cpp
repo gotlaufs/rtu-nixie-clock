@@ -9,7 +9,7 @@
 #include <SmingCore/SmingCore.h>
 
 
-ShowTimeState::ShowTimeState()
+ShowTimeState::ShowTimeState(NixieClock & app) : NixieState(app)
 {
 
 }
@@ -47,17 +47,17 @@ void ShowTimeState::update()
 
 }
 
-void ShowTimeState::button1(NixieClock * app, Button::Press press_type)
+void ShowTimeState::button1(Button::Press press_type)
 {
-    app->setState(NixieClock::SET_TIME);
+    app.setState(NixieClock::SET_TIME);
 }
 
-void ShowTimeState::button2(NixieClock * app, Button::Press press_type)
+void ShowTimeState::button2(Button::Press press_type)
 {
-
+    app.setState(NixieClock::TUBE_SAVER);
 }
 
-void ShowTimeState::button3(NixieClock * app, Button::Press press_type)
+void ShowTimeState::button3(Button::Press press_type)
 {
 
 }
