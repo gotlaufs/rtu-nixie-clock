@@ -22,7 +22,14 @@ ShowTimeState::~ShowTimeState()
 void ShowTimeState::update()
 {
     time_t now = RTC.getRtcSeconds();
+    int8_t prev_hour = hour;
     DateTime::fromUnixTime(now, &sec, &min, &hour, NULL, NULL, NULL, NULL);
+
+    // Run screen saver animation every hour
+    if (prev_hour != hour)
+    {
+        app.setState(NixieClock::TUBE_SAVER);
+    }
 
     writeTimeToNixie();
 
