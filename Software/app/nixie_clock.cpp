@@ -46,7 +46,7 @@ void NixieClock::init()
         RTC.setRtcSeconds(now);
     }
 
-    current_state = new ShowTimeState(*this);
+    current_state = new TubeSaverState(*this);
 }
 
 void NixieClock::button1(Button::Press press_type)

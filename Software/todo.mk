@@ -3,12 +3,14 @@ TODO:
 - RTC:
  - [ ] Update time periodically from RTC IC
  - [ ] Calibrate IC
-- [ ] Time settings
+- [ ] Time setting
  - [ ] Blink colons wen setting time
  - [ ] Double blink the digit where current digit is set
 
-- [x] Screen-saver (tube-saver hehe) mode
- - [ ] Run it periodically
+- [ ] Double blink all digits if time is not set
+
+- [o] Screen-saver (tube-saver hehe) mode
+ - [o] Run it periodically
 
 - [ ] Web
  - [ ] Store persistent data in device Flash
