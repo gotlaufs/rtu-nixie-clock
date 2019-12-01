@@ -18,6 +18,7 @@ public:
     {
         SHOW_TIME,  // Show current time
         SET_TIME,   // Set the clock's time
+        TUBE_SAVER, // Show a spinning digit animation
     };
 
     NixieClock();

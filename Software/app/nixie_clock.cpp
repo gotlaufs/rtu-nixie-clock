@@ -3,6 +3,7 @@
 
 #include "show_time_state.h"
 #include "set_time_state.h"
+#include "tube_saver_state.h"
 
 #include <SmingCore/SmingCore.h>
 
@@ -76,6 +77,10 @@ void NixieClock::setState(State state_enum)
 
     case SET_TIME:
         current_state = new SetTimeState;
+    break;
+
+    case TUBE_SAVER:
+        current_state = new TubeSaverState;
     break;
 
     default:
