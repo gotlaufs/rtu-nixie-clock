@@ -7,7 +7,6 @@
 
 TubeSaverState::TubeSaverState(NixieClock & app) : NixieState(app)
 {
-    Serial.println("TubeSaver begin!");
     // Get the current time
     animation_start_time = millis();;
     last_update_time = 0;
@@ -16,13 +15,11 @@ TubeSaverState::TubeSaverState(NixieClock & app) : NixieState(app)
     for (int i = 0; i < 6; i++)
     {
         digit_random_time[i] = Utils::randomInRange(RANDOM_TIME, ANIMATION_TIME);
-        Serial.printf("%d: %d\n", i, digit_random_time[i]);
     }
 }
 
 TubeSaverState::~TubeSaverState()
 {
-    Serial.println("TubeSaver end!");
 }
 
 void TubeSaverState::button1(Button::Press press_type)
@@ -63,7 +60,6 @@ void TubeSaverState::update()
             {
                 // Draw a random digit form 0 to 10
                 int rand_digit = Utils::randomInRange(0, 9);
-                Serial.printf("Drew a number: %d\n", rand_digit);
 
                 switch(digit)
                 {

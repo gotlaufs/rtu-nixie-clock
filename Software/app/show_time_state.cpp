@@ -11,7 +11,8 @@
 
 ShowTimeState::ShowTimeState(NixieClock & app) : NixieState(app)
 {
-
+    // This prevents showing zeros for split second after TubeSaver is done
+    update();
 }
 
 ShowTimeState::~ShowTimeState()

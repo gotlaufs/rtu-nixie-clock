@@ -9,11 +9,8 @@ TODO:
 
 - [ ] Double blink all digits if time is not set
 
-- [x] Screen-saver (tube-saver hehe) mode
- - [x] Run it periodically
- - [ ] Tube saver should blink cursor
-
-- Cursor should be handled separately, so that it can be bliked from all states.
+- [o] Screen-saver (tube-saver hehe) mode
+ - [o] Run it periodically
 
 - [ ] Web
  - [ ] Store persistent data in device Flash
